@@ -1,0 +1,7 @@
+.table thead th {
+    background-color: #f8f9fa;
+    color: #333;
+}
+.filter-kategori-width {
+    width: 200px; /* Sesuaikan dengan ukuran yang diinginkan */
+}

@@ -11,15 +11,14 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ route('barang.index') }}" class="nav-link {{ Route::currentRouteName() == 'barang.index' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-box"></i>
-                        <p>Menu Barang</p>
+                    <a href="{{ url('/admin/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }} ">                        <i class="nav-icon fas fa-box"></i>
+                        <p>Kategori Barang</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('barang.bayar') }}" class="nav-link {{ Route::currentRouteName() == 'barang.bayar' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cash-register"></i>
-                        <p>Pembayaran</p>
+                        <p>Member</p>
                     </a>
                 </li>
                 <li class="nav-item">

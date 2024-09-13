@@ -11,13 +11,13 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ url('/menu-barang') }}" class="nav-link">
+                    <a href="{{ route('barang.index') }}" class="nav-link {{ Route::currentRouteName() == 'barang.index' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-box"></i>
                         <p>Menu Barang</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('/bayar') }}" class="nav-link">
+                    <a href="{{ route('barang.bayar') }}" class="nav-link {{ Route::currentRouteName() == 'barang.bayar' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cash-register"></i>
                         <p>Pembayaran</p>
                     </a>

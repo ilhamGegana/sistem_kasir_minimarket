@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('barang.bayar') }}" class="nav-link {{ Route::currentRouteName() == 'barang.bayar' ? 'active' : '' }}">
+                    <a href="{{ url('/admin/member') }}" class="nav-link {{ ($activeMenu == 'member') ? 'active' : '' }} ">
                         <i class="nav-icon fas fa-cash-register"></i>
                         <p>Member</p>
                     </a>

@@ -27,11 +27,11 @@
                     </tr>
                 </table>
             @endempty
-            <a href="{{ url('kategori') }}" class="btn btn-sm btn-default mt2">Kembali</a>
+            <a href="{{ url('admin/kategori') }}" class="btn btn-sm btn-default mt2">Kembali</a>
         </div>
     </div>
 @endsection
-@push('css')
+@push('styles')
 @endpush
-@push('js')
+@push('scripts')
 @endpush

@@ -14,7 +14,7 @@ class KategoriModel extends Model
     protected $fillable = ['kode_kategori', 'nama_kategori']; // Ganti dengan kolom yang sesuai
 
     // Jika tabel tidak memiliki kolom timestamp
-    public $timestamps = false;
+    public $timestamps = true;
 
      // Menyebutkan kolom primary key
      protected $primaryKey = 'kategori_id'; // Ganti dengan nama kolom primary key yang sesuai

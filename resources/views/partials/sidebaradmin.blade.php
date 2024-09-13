@@ -11,7 +11,8 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ url('/admin/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }} ">                        <i class="nav-icon fas fa-box"></i>
+                    <a href="{{ url('/admin/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-box"></i>
                         <p>Kategori Barang</p>
                     </a>
                 </li>

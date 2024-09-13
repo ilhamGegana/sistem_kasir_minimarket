@@ -21,9 +21,9 @@
         </div>
     </div>
 @endsection
-@push('css')
+@push('styles')
 @endpush
-@push('js')
+@push('scripts')
     <script>
         $(document).ready(function() {
             var dataUser = $('#table_kategori').DataTable({

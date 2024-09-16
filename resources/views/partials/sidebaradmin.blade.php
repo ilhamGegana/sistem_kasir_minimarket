@@ -16,11 +16,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('/admin/barang') }}" class="nav-link {{ ($activeMenu == 'data_barang') ? 'active' : '' }} ">                        <i class="nav-icon fas fa-box"></i>
+                        <p>Data Barang</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('barang.bayar') }}" class="nav-link {{ Route::currentRouteName() == 'barang.bayar' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cash-register"></i>
                         <p>Member</p>
                     </a>
                 </li>
+            <li class="nav-item">
+                <a href="{{ url('/admin/pengguna') }}" class="nav-link {{ ($activeMenu == 'pengguna') ? 'active' : '' }} ">                        <i class="nav-icon fas fa-box"></i>
+                    <p>Data Pengguna</p>
+                </a>
+            </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>

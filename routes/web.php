@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\frontend\KasirController;
-use App\Http\Controllers\PilihBarangController;
+use App\Http\Controllers\KasirController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,11 +18,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/menu-barang', [PilihBarangController::class, 'index'])->name('barang.index');
+Route::get('/menu-barang', [KasirController::class, 'index'])->name('barang.index');
 
-Route::post('/tambah-ke-keranjang', [PilihBarangController::class, 'tambahKeKeranjang'])->name('barang.tambahKeKeranjang');
+Route::post('/tambah-ke-keranjang', [KasirController::class, 'tambahKeKeranjang'])->name('barang.tambahKeKeranjang');
 
-Route::post('/update-keranjang/{id}', [PilihBarangController::class, 'updateKeranjang'])->name('update-keranjang');
+Route::post('/update-keranjang/{id}', [KasirController::class, 'updateKeranjang'])->name('update-keranjang');
+
+Route::get('/checkout', [KasirController::class, 'checkout'])->name('barang.checkout');
+
+Route::post('/keranjang/clear', [KasirController::class, 'clearKeranjang'])->name('keranjang.clear');
+
+// Route untuk menampilkan form login
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+
+// Route untuk memproses form login
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+// Route untuk logout
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/bayar', function () {
     return view('barang.bayar');
@@ -31,3 +44,8 @@ Route::get('/bayar', function () {
 Route::get('/admin_kat', function () {
     return view('admin.kategori');
 })->name('admin.kategori');
+
+// Routing untuk dashboard pengguna setelah login (kasir)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [KasirController::class, 'index'])->name('dashboard');
+});

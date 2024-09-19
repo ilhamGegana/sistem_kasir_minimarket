@@ -97,9 +97,15 @@
                     @endif
 
                     <div class="mt-3 d-flex justify-content-between">
-                        <button class="btn btn-danger btn-lg">Batalkan</button>
-                        <button class="btn btn-success btn-lg">Konfirmasi</button>
+                        <form action="{{ route('keranjang.clear') }}" method="POST" style="width: 100%;">
+                            @csrf
+                            <button type="submit" class="btn tombol-custom tombol-batalkan">Batalkan</button>
+                        </form>
+                        <form action="{{ route('barang.checkout') }}" method="GET" style="width: 100%;">
+                            <button type="submit" class="btn tombol-custom tombol-konfirmasi">Konfirmasi</button>
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -135,18 +141,51 @@
             border-bottom: none;
         }
 
-        .btn-lg {
-            width: 48%;
+        /* Styling untuk tombol dengan lebar yang sama dan tampilan yang proporsional */
+        .tombol-custom {
+            width: 100%;
+            /* Tetap membuat tombol memiliki lebar penuh */
+            padding: 12px 0;
+            /* Menambahkan padding atas dan bawah */
+            font-size: 16px;
+            /* Ukuran teks agar mudah dibaca */
+            font-weight: bold;
+            /* Membuat teks tebal */
+            border-radius: 5px;
+            /* Membuat sudut tombol melengkung */
+            text-align: center;
+            /* Pastikan teks berada di tengah */
+            cursor: pointer;
+            /* Gaya kursor menjadi pointer */
         }
 
+        /* Warna tombol Batalkan dengan latar merah */
         .tombol-batalkan {
-            background-color: #ff5c5c;
-            border-color: #ff5c5c;
+            background-color: #dc3545;
+            color: white;
+            border: none;
         }
 
+        /* Warna tombol Konfirmasi dengan latar hijau */
         .tombol-konfirmasi {
             background-color: #28a745;
-            border-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        /* Hover effect untuk memberikan feedback saat tombol dihover */
+        .tombol-batalkan:hover {
+            background-color: #c82333;
+        }
+
+        .tombol-konfirmasi:hover {
+            background-color: #218838;
+        }
+
+        /* Menambahkan jarak antara tombol */
+        .d-flex {
+            gap: 10px;
+            /* Menambahkan jarak antar tombol */
         }
     </style>
 @endpush

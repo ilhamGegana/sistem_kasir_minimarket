@@ -6,7 +6,7 @@ use App\Models\ModelBarang;
 use App\Models\ModelKategori;
 use Illuminate\Http\Request;
 
-class PilihBarangController extends Controller
+class KasirController extends Controller
 {
     public function index(Request $request)
     {
@@ -68,5 +68,25 @@ class PilihBarangController extends Controller
         session()->put('keranjang', $keranjang);
 
         return redirect()->back();
+    }
+    public function checkout()
+    {
+        // Ambil data keranjang dari session
+        $keranjang = session()->get('keranjang', []);
+
+        // Hitung subtotal
+        $subtotal = array_reduce($keranjang, function ($carry, $item) {
+            return $carry + ($item['harga'] * $item['jumlah']);
+        }, 0);
+
+        return view('barang.bayar', compact('keranjang', 'subtotal'));
+    }
+    public function clearKeranjang()
+    {
+        // Mengosongkan keranjang dari session
+        session()->forget('keranjang');
+
+        // Redirect kembali ke halaman barang dengan pesan sukses
+        return redirect()->route('barang.index')->with('success', 'Keranjang telah dikosongkan.');
     }
 }

@@ -12,8 +12,18 @@
                     <label class="col-1 control-label col-form-label">Username</label>
                     <div class="col-11">
                         <input type="text" class="form-control" name="username"
-                            value="{{ old('username', $barang->username) }}" required>
+                            value="{{ old('username', $pengguna->username) }}" required>
                         @error('username')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-1 control-label col-form-label">Nama</label>
+                    <div class="col-11">
+                        <input type="text" class="form-control" name="nama"
+                            value="{{ old('nama', $pengguna->nama) }}" required>
+                        @error('nama')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -34,7 +44,7 @@
                     <label class="col-1 control-label col-form-label">role</label>
                     <div class="col-11">
                         <input type="text" class="form-control" id="role" name="role"
-                            value="{{ old('role', $user->role) }}" required>
+                            value="{{ old('role', $pengguna->role) }}" required>
                         @error('role')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror

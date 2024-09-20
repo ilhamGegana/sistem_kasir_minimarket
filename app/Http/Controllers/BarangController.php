@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangModel;
+use App\Models\KategoriModel;
+use App\Models\ModelBarang;
+use App\Models\ModelKategori;
 use Illuminate\Http\Request;
 use PHPUnit\Metadata\DataProvider;
+use Ramsey\Uuid\Type\Integer;
 use Yajra\DataTables\Facades\DataTables;
 
 class BarangController extends Controller
@@ -28,7 +32,7 @@ class BarangController extends Controller
 
     public function list(Request $request)
     {
-        $barangs = BarangModel::select('barang_id', 'kode_barang', 'nama_barang', 'kategori_id', 'harga', 'stok')->with('kategori');
+        $barangs = ModelBarang::select('barang_id', 'kode_barang', 'nama_barang', 'kategori_id', 'harga', 'stok')->with('kategori');
         
         return DataTables::of($barangs)
             ->addIndexColumn()
@@ -53,23 +57,26 @@ class BarangController extends Controller
             'title' => 'Tambah Barang Baru'
         ];
 
+        $kategori = ModelKategori::all();
         $activeMenu = 'barang';
 
-        return view('admin/barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('admin.barang.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'activeMenu' => $activeMenu]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'kode_barang' => 'required|string|min:2|unique:data_barang,kode_barang',
+            'kode_barang' => 'required|string|min:2|unique:barang,kode_barang',
             'nama_barang' => 'required|string|max:100',
-            'harga'       => 'required|numeric|min:0',
-            'stok'        => 'required|integer|min:0'
+            'kategori_id' => 'required|integer',
+            'harga'       => 'required|numeric|between:0,999999.99',
+            'stok'        => 'required|integer'
         ]);
 
-        BarangModel::create([
+        ModelBarang::create([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
+            'kategori_id' => $request->kategori_id,
             'harga'       => $request->harga,
             'stok'        => $request->stok
         ]);
@@ -79,7 +86,7 @@ class BarangController extends Controller
 
     public function show(string $id)
     {
-        $barang = BarangModel::find($id);
+        $barang = ModelBarang::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Detail Data Barang',
@@ -90,14 +97,14 @@ class BarangController extends Controller
             'title' => 'Detail Barang'
         ];
 
-        $activeMenu = 'databarang';
+        $activeMenu = 'barang';
 
-        return view('admin/barang.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'databarang' => $barang, 'activeMenu' => $activeMenu]);
+        return view('admin/barang.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
     public function edit(string $id)
     {
-        $barang = BarangModel::find($id);
+        $barang = ModelBarang::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Edit Data Barang',
@@ -108,40 +115,45 @@ class BarangController extends Controller
             'title' => 'Edit Barang'
         ];
 
+        $kategori = ModelKategori::all();
         $activeMenu = 'barang';
 
-        return view('admin/barang.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'databarang' => $barang, 'activeMenu' => $activeMenu]);
+        return view('admin.barang.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kategori' => $kategori, 'barang' => $barang, 'activeMenu' => $activeMenu]);
     }
 
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'kode_barang' => 'required|string|min:2|unique:data_barang,kode_barang,' . $id . ',barang_id',
+            'kode_barang' => 'required|string|min:2',
             'nama_barang' => 'required|string|max:100',
-            'harga'       => 'required|numeric|min:0',
-            'stok'        => 'required|integer|min:0'
+            'kategori_id' => 'required|integer',
+            'harga'       => 'required|numeric|between:0,999999.99',
+            'stok'        => 'required|integer' 
         ]);
-
-        BarangModel::find($id)->update([
+        // masalahnya di form gak ada kategori id pas saya validasi data update disana ada kategori id sehingga tidak berhasil kurangnya data sehingga saya tambahkan inputan untuk kategori
+        
+        ModelBarang::find($id)->update([
             'kode_barang' => $request->kode_barang,
             'nama_barang' => $request->nama_barang,
+            'kategori_id' => $request->kategori_id,
             'harga'       => $request->harga,
             'stok'        => $request->stok
         ]);
+    
 
         return redirect('/admin/barang')->with('success', 'Data barang berhasil diubah');
     }
 
     public function destroy(string $id)
     {
-        $databarang = BarangModel::find($id);
+        $barang = ModelBarang::find($id);
 
-        if (!$databarang) {
+        if (!$barang) {
             return redirect('/admin/barang')->with('error', 'Data barang tidak ditemukan');
         }
 
         try {
-            BarangModel::destroy($id);
+            ModelBarang::destroy($id);
             return redirect('/admin/barang')->with('success', 'Data barang berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/admin/barang')->with('error', 'Gagal menghapus data barang');

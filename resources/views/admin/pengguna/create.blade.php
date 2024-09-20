@@ -16,11 +16,11 @@
                     @enderror
                 </div>
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Username</label>
+                    <label class="col-1 control-label col-form-label">Nama</label>
                     <div class="col-11">
-                        <input type="text" class="form-control" id="username" name="username"
-                            value="{{ old('username', $user->username) }}" required>
-                        @error('username')
+                        <input type="text" class="form-control" id="nama" name="nama"
+                            value="{{ old('nama') }}" required>
+                        @error('nama')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -41,7 +41,7 @@
                     <label class="col-1 control-label col-form-label">Role</label>
                     <div class="col-11">
                         <input type="text" class="form-control" id="role" name="role"
-                            value="{{ old('role', $pengguna->role) }}" required>
+                            value="{{ old('role') }}" required>
                         @error('role')
                             <small class="form-text text-danger">{{ $message }}</small>
                         @enderror

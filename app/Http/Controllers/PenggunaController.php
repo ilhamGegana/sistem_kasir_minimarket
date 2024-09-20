@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ModelPengguna;
 use App\Models\PenggunaModel;
 use Illuminate\Http\Request;
 use PHPUnit\Metadata\DataProvider;
@@ -30,7 +31,7 @@ class PenggunaController extends Controller
 
     public function list(Request $request)
     {
-        $penggunas = PenggunaModel::select('username', 'nama', 'role');
+        $penggunas = ModelPengguna::select('pengguna_id' ,'username', 'nama', 'role');
         
         return DataTables::of($penggunas)
             ->addIndexColumn()
@@ -55,7 +56,7 @@ class PenggunaController extends Controller
             'title' => 'Tambah Pengguna Baru'
         ];
 
-        $activeMenu = 'Pengguna';
+        $activeMenu = 'pengguna';
 
         return view('admin/pengguna.create', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
@@ -63,13 +64,15 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|unique:users',
+            'username' => 'required|',
+            'nama'     => 'required|',
             'password' => 'required|min:6',
-            'role' => 'required'
+            'role'     => 'required'
         ]);
 
-        PenggunaModel::create([
+        ModelPengguna::create([
             'username' => $request->username,
+            'nama'     => $request->nama,
             'password' => $request->password,
             'role'     => $request->role
         ]);
@@ -79,7 +82,7 @@ class PenggunaController extends Controller
 
     public function show(string $id)
     {
-        $pengguna = penggunaModel::find($id);
+        $pengguna = ModelPengguna::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Detail Data pengguna',
@@ -90,14 +93,14 @@ class PenggunaController extends Controller
             'title' => 'Detail pengguna'
         ];
 
-        $activeMenu = 'datapengguna';
+        $activeMenu = 'pengguna';
 
-        return view('admin/pengguna.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'datapengguna' => $pengguna, 'activeMenu' => $activeMenu]);
+        return view('admin.pengguna.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'pengguna' => $pengguna, 'activeMenu' => $activeMenu]);
     }
 
     public function edit(string $id)
     {
-        $pengguna = PenggunaModel::find($id);
+        $pengguna = ModelPengguna::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Edit Data Pengguna',
@@ -110,19 +113,21 @@ class PenggunaController extends Controller
 
         $activeMenu = 'pengguna';
 
-        return view('admin/pengguna.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'datapengguna' => $pengguna, 'activeMenu' => $activeMenu]);
+        return view('admin/pengguna.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'pengguna' => $pengguna, 'activeMenu' => $activeMenu]);
     }
 
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'username' => 'required|unique:users',
+            'username' => 'required|',
+            'nama'     => 'required|',
             'password' => 'required|min:6',
-            'role' => 'required'
+            'role'     => 'required'
         ]);
 
-        PenggunaModel::find($id)->update([
+        ModelPengguna::find($id)->update([
             'username' => $request->username,
+            'nama'     => $request->nama,
             'password' => $request->password,
             'role'     => $request->role
         ]);
@@ -132,14 +137,14 @@ class PenggunaController extends Controller
 
     public function destroy(string $id)
     {
-        $datapengguna = PenggunaModel::find($id);
+        $pengguna = ModelPengguna::find($id);
 
-        if (!$datapengguna) {
+        if (!$pengguna) {
             return redirect('/admin/pengguna')->with('error', 'Data pengguna tidak ditemukan');
         }
 
         try {
-            PenggunaModel::destroy($id);
+            ModelPengguna::destroy($id);
             return redirect('/admin/pengguna')->with('success', 'Data pengguna berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
             return redirect('/admin/pengguna')->with('error', 'Gagal menghapus data pengguna');

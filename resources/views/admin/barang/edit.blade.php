@@ -29,6 +29,19 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-1 control-label col-form-label">Kategori</label>
+                    <div class="col-11">
+                        <select class="form-control" name="kategori_id" required>
+                            @foreach($kategori as $k)
+                                <option value="{{ $k->kategori_id }}">{{ $k->nama_kategori }}</option>
+                            @endforeach
+                        </select>
+                        @error('kategori_id')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-1 control-label col-form-label">Harga</label>
                     <div class="col-11">
                         <input type="number" class="form-control" name="harga"

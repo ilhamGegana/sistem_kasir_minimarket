@@ -13,15 +13,15 @@
                     <strong>Username</strong>
                 </div>
                 <div class="col-md-9">
-                    {{ $datapengguna->username }}
+                    {{ $pengguna->username }}
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col-md-3">
-                    <strong>Password</strong>
+                    <strong>Nama</strong>
                 </div>
                 <div class="col-md-9">
-                    {{ $datapengguna->password }}
+                    {{ $pengguna->nama }}
                 </div>
             </div>
             <div class="row mb-2">
@@ -29,7 +29,7 @@
                     <strong>Role</strong>
                 </div>
                 <div class="col-md-9">
-                    {{ $datapengguna->role }}
+                    {{ $pengguna->role }}
                 </div>
             </div>
         </div>

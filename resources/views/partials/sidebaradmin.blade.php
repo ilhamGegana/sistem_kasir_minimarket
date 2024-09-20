@@ -18,7 +18,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('/admin/member') }}" class="nav-link {{ ($activeMenu == 'member') ? 'active' : '' }} ">
-                        <i class="nav-icon fas fa-cash-register"></i>
+                        <i class="nav-icon fas fa-user"></i>
                         <p>Member</p>
                     </a>
                 </li>

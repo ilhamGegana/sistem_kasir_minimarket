@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
+use App\Models\ModelMember;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -29,7 +29,7 @@ class MembersController extends Controller
     public function list(Request $request)
 {
     // Sesuaikan select dengan kolom yang ada di tabel member
-    $member = Member::select('member_id', 'nomor_member', 'nama_member', 'no_telepon', 'tanggal_daftar', 'tanggal_expired', 'status');
+    $member = ModelMember::select('member_id', 'nomor_member', 'nama_member', 'no_telepon', 'tanggal_daftar', 'tanggal_expired', 'status');
     
     return DataTables::of($member)
         // Menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
@@ -71,7 +71,7 @@ class MembersController extends Controller
         'status' => 'required|string|in:aktif,non-aktif'
     ]);
 
-    Member::create([
+    ModelMember::create([
         'nomor_member' => $request->nomor_member,
         'nama_member' => $request->nama_member,
         'no_telepon' => $request->no_telepon,
@@ -85,7 +85,7 @@ class MembersController extends Controller
 
     public function show(string $id)
     {
-        $member = Member::find($id);
+        $member = ModelMember::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Detail Member',
@@ -103,7 +103,7 @@ class MembersController extends Controller
     }
 
     public function edit(string $id){
-        $member = Member::find($id);
+        $member = ModelMember::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Edit Data Member',
@@ -130,7 +130,7 @@ class MembersController extends Controller
         'status' => 'required|string|in:aktif,non-aktif'
     ]);
 
-    $member = Member::find($id);
+    $member = ModelMember::find($id);
 
     if (!$member) {
         return redirect('/admin/member')->with('error', 'Data Member tidak ditemukan');
@@ -148,13 +148,13 @@ class MembersController extends Controller
 }
 
     public function destroy(string $id){
-        $check = Member::find($id);
+        $check = ModelMember::find($id);
         if (!$check){
-            return redirect('/admin/meber')->with('error', 'Data Member tidak ditemukan');
+            return redirect('/admin/ModelMember')->with('error', 'Data Member tidak ditemukan');
         }
 
         try{
-            Member::destroy($id); //hapus data kategori
+            ModelMember::destroy($id); //hapus data kategori
 
             return redirect('/admin/member')->with('success', 'Data Member berhasil dihapus');
         }catch(\Illuminate\Database\QueryException $e){

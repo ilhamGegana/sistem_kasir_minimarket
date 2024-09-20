@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KategoriModel;
+use App\Models\ModelKategori;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -28,7 +28,7 @@ class KategoriController extends Controller
 
     public function list(Request $request)
     {
-        $kategori = KategoriModel::select('kategori_id', 'kode_kategori', 'nama_kategori');
+        $kategori = ModelKategori::select('kategori_id', 'kode_kategori', 'nama_kategori');
         
         return DataTables::of($kategori)
             // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
@@ -64,11 +64,11 @@ class KategoriController extends Controller
     {
         $request->validate([
             // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di table m_user kolom usernmae
-            'kode_kategori' => 'required|string|min:2|unique:kategori_barang,kode_kategori',
+            'kode_kategori' => 'required|string|min:3|unique:kategori_barang,kode_kategori',
             'nama_kategori'     =>  'required|string|max:100' //nama haruus diisi, berupa string, dan maksimal 100 karakter
         ]);
 
-        KategoriModel::create([
+        ModelKategori::create([
             'kode_kategori' => $request->kode_kategori,
             'nama_kategori'  => $request->nama_kategori
         ]);
@@ -77,7 +77,7 @@ class KategoriController extends Controller
     }
     public function show(string $id)
     {
-        $kategori = KategoriModel::find($id);
+        $kategori = ModelKategori::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Detail kategori',
@@ -95,7 +95,7 @@ class KategoriController extends Controller
     }
 
     public function edit(string $id){
-        $kategori = KategoriModel::find($id);
+        $kategori = ModelKategori::find($id);
 
         $breadcrumb = (object)[
             'title' => 'Edit kategori',
@@ -116,11 +116,11 @@ class KategoriController extends Controller
 
         $request->validate([
             // username harus diisi, berupa string, minimal 3 karakter, dan bernilai unik di table m_user kolom usernmae
-            'kode_kategori' => 'required|string|min:2|unique:kategori_barang,kode_kategori',
+            'kode_kategori' => 'required|string|min:3',
             'nama_kategori'     =>  'required|string|max:100' // kategori_id harus diisi dan berupa angka
         ]);
 
-        KategoriModel::find($id)->update([
+        ModelKategori::find($id)->update([
             'kode_kategori' => $request->kode_kategori,
             'nama_kategori'  => $request->nama_kategori
         ]);
@@ -129,13 +129,13 @@ class KategoriController extends Controller
     }
 
     public function destroy(string $id){
-        $check = KategoriModel::find($id);
+        $check = ModelKategori::find($id);
         if (!$check){
             return redirect('/admin/kategori')->with('error', 'Data kategori tidak ditemukan');
         }
 
         try{
-            KategoriModel::destroy($id); //hapus data kategori
+            ModelKategori::destroy($id); //hapus data kategori
 
             return redirect('/admin/kategori')->with('success', 'Data kategori berhasil dihapus');
         }catch(\Illuminate\Database\QueryException $e){

@@ -22,7 +22,7 @@ class PenggunaController extends Controller
         $page = (object)[
             'title' => 'Daftar Data Pengguna'
         ];
-        
+
 
         $activeMenu = 'pengguna';
 
@@ -31,8 +31,8 @@ class PenggunaController extends Controller
 
     public function list(Request $request)
     {
-        $penggunas = ModelPengguna::select('pengguna_id' ,'username', 'nama', 'role');
-        
+        $penggunas = ModelPengguna::select('pengguna_id', 'username', 'nama', 'role');
+
         return DataTables::of($penggunas)
             ->addIndexColumn()
             ->addColumn('aksi', function ($pengguna) {
@@ -64,8 +64,8 @@ class PenggunaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'username' => 'required|',
-            'nama'     => 'required|',
+            'username' => 'required',
+            'nama'     => 'required',
             'password' => 'required|min:6',
             'role'     => 'required'
         ]);
@@ -73,12 +73,13 @@ class PenggunaController extends Controller
         ModelPengguna::create([
             'username' => $request->username,
             'nama'     => $request->nama,
-            'password' => $request->password,
+            'password' => bcrypt($request->password),  // Hash password sebelum disimpan
             'role'     => $request->role
         ]);
 
         return redirect('/admin/pengguna')->with('success', 'Data pengguna berhasil disimpan');
     }
+
 
     public function show(string $id)
     {
@@ -119,18 +120,26 @@ class PenggunaController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'username' => 'required|',
-            'nama'     => 'required|',
-            'password' => 'required|min:6',
+            'username' => 'required',
+            'nama'     => 'required',
+            'password' => 'nullable|min:6', // Password tidak wajib diubah
             'role'     => 'required'
         ]);
 
-        ModelPengguna::find($id)->update([
+        $pengguna = ModelPengguna::find($id);
+
+        $dataToUpdate = [
             'username' => $request->username,
             'nama'     => $request->nama,
-            'password' => $request->password,
-            'role'     => $request->role
-        ]);
+            'role'     => $request->role,
+        ];
+
+        // Jika password diisi, hash password sebelum di-update
+        if ($request->filled('password')) {
+            $dataToUpdate['password'] = bcrypt($request->password);
+        }
+
+        $pengguna->update($dataToUpdate);
 
         return redirect('/admin/pengguna')->with('success', 'Data pengguna berhasil diubah');
     }

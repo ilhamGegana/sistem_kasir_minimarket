@@ -22,7 +22,7 @@
             @endif
 
             <div class="d-flex justify-content-between">
-                <h2>Transaksi oleh: {{ auth()->check() ? auth()->user()->name : 'Pengguna Tidak Diketahui' }}</h2>
+                <h2>Transaksi oleh: {{ auth()->check() ? auth()->user()->nama : 'Pengguna Tidak Diketahui' }}</h2>
             </div>
             <p><strong>Waktu: </strong><span id="transaction-time"></span></p>
 

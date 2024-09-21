@@ -207,6 +207,27 @@
 
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            // Inisialisasi DataTables
+            $('#example1').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    "paginate": {
+                        "previous": "Previous",
+                        "next": "Next"
+                    },
+                    "search": "Search:",
+                    "lengthMenu": "Show _MENU_ entries",
+                    "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                }
+            });
+        });
         // Fungsi updateKeranjang
         function updateKeranjang(id, action) {
             $.ajax({

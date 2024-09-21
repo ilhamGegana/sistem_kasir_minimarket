@@ -28,91 +28,78 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::prefix('kasir')->group(function () {
-    Route::get('/menu-barang', [KasirController::class, 'index'])->name('kasir.index');
-    
-    Route::post('/tambah-ke-keranjang', [KasirController::class, 'tambahKeKeranjang'])->name('kasir.tambahKeKeranjang');
-    
-    Route::post('/update-keranjang/{id}', [KasirController::class, 'updateKeranjang'])->name('update-keranjang');
-    
-    Route::get('/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
-    
-    Route::post('/keranjang/clear', [KasirController::class, 'clearKeranjang'])->name('keranjang.clear');
-    
-    Route::get('/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
-    
-    Route::post('/check-member', [KasirController::class, 'checkMember'])->name('check.member');
-    
-    Route::post('/store-payment-method', [KasirController::class, 'storePaymentMethod'])->name('kasir.storePaymentMethod');
-
-    Route::post('/proses-transaksi', [KasirController::class, 'prosesTransaksi'])->name('kasir.prosesTransaksi');
-});
-
-// Routing untuk dashboard pengguna setelah login (kasir)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [KasirController::class, 'index'])->name('dashboard');
-});
-
-// Route untuk menampilkan form login
+// Rute untuk login dan logout
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-
-// Route untuk memproses form login
 Route::post('/login', [LoginController::class, 'login'])->name('login');
-
-// Route untuk logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/bayar', function () {
-    return view('barang.bayar');
-})->name('barang.bayar');
 
-Route::Group(['prefix' => 'admin/kategori'], function () {
-    Route::get('/', [KategoriController::class, 'index']); //menampilkan halaman awal user
-    Route::post('/list', [KategoriController::class, 'list']);  //menampilkan data user dalam bentuk json untuk datables
-    Route::get('/create', [KategoriController::class, 'create']); //menampilkan hallaman form tambah user
-    Route::post('/', [KategoriController::class, 'store']); //menyimpan data user baru
-    Route::get('/{id}', [KategoriController::class, 'show']); //menampilkan detail user
-    Route::get('/{id}/edit', [KategoriController::class, 'edit']); //menampilkan halaman form edit
-    Route::put('/{id}', [KategoriController::class, 'update']); //menyimpan perubahan data user
-    Route::delete('/{id}', [KategoriController::class, 'destroy']); //menghapus data user
+// Middleware 'auth' memastikan pengguna sudah login
+Route::middleware(['auth'])->group(function () {
+
+    // Route untuk dashboard kasir (dengan role 'kasir')
+    Route::middleware('role:kasir')->group(function () {
+        Route::prefix('kasir')->group(function () {
+            Route::get('/menu-barang', [KasirController::class, 'index'])->name('kasir.index');
+            Route::post('/tambah-ke-keranjang', [KasirController::class, 'tambahKeKeranjang'])->name('kasir.tambahKeKeranjang');
+            Route::post('/update-keranjang/{id}', [KasirController::class, 'updateKeranjang'])->name('update-keranjang');
+            Route::get('/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
+            Route::post('/keranjang/clear', [KasirController::class, 'clearKeranjang'])->name('keranjang.clear');
+            Route::get('/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
+            Route::post('/check-member', [KasirController::class, 'checkMember'])->name('check.member');
+            Route::post('/store-payment-method', [KasirController::class, 'storePaymentMethod'])->name('kasir.storePaymentMethod');
+            Route::post('/proses-transaksi', [KasirController::class, 'prosesTransaksi'])->name('kasir.prosesTransaksi');
+            Route::get('/kasir/cetak-nota/{transaksi_id}', [KasirController::class, 'cetakNota'])->name('kasir.cetakNota');
+        });
+    });
+
+    // Route untuk dashboard admin (dengan role 'admin')
+    Route::middleware('admin')->group(function () {
+        Route::prefix('admin/kategori')->name('admin.kategori.')->group(function () {
+            Route::get('/', [KategoriController::class, 'index'])->name('index');
+            Route::post('/list', [KategoriController::class, 'list'])->name('list'); 
+            Route::get('/create', [KategoriController::class, 'create'])->name('create');
+            Route::post('/', [KategoriController::class, 'store'])->name('store'); 
+            Route::get('/{id}', [KategoriController::class, 'show'])->name('show');
+            Route::get('/{id}/edit', [KategoriController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [KategoriController::class, 'update'])->name('update');
+            Route::delete('/{id}', [KategoriController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('admin/member')->group(function () {
+            Route::get('/', [MembersController::class, 'index']);
+            Route::post('/list', [MembersController::class, 'list']);
+            Route::get('/create', [MembersController::class, 'create']);
+            Route::post('/', [MembersController::class, 'store']);
+            Route::get('/{id}', [MembersController::class, 'show']);
+            Route::get('/{id}/edit', [MembersController::class, 'edit']);
+            Route::put('/{id}', [MembersController::class, 'update']);
+            Route::delete('/{id}', [MembersController::class, 'destroy']);
+        });
+
+        Route::get('admin/detailTransaksi', [DetailTransaksiController::class, 'index'])->name('admin.detailTransaksi.index');
+        Route::post('admin/detailTransaksi', [DetailTransaksiController::class, 'getData'])->name('admin.detailTransaksi.data');
+        Route::get('admin/detailTransaksi/pdf', [DetailTransaksiController::class, 'exportPDF'])->name('admin.detailTransaksi.pdf');
+
+        Route::prefix('admin/barang')->group(function () {
+            Route::get('/', [BarangController::class, 'index']);
+            Route::post('/list', [BarangController::class, 'list']);
+            Route::get('/create', [BarangController::class, 'create']);
+            Route::post('/', [BarangController::class, 'store']);
+            Route::get('/{id}', [BarangController::class, 'show']);
+            Route::get('/{id}/edit', [BarangController::class, 'edit']);
+            Route::put('/{id}', [BarangController::class, 'update']);
+            Route::delete('/{id}', [BarangController::class, 'destroy']);
+        });
+
+        Route::prefix('admin/pengguna')->group(function () {
+            Route::get('/', [PenggunaController::class, 'index']);
+            Route::post('/list', [PenggunaController::class, 'list']);
+            Route::get('/create', [PenggunaController::class, 'create']);
+            Route::post('/', [PenggunaController::class, 'store']);
+            Route::get('/{id}', [PenggunaController::class, 'show']);
+            Route::get('/{id}/edit', [PenggunaController::class, 'edit']);
+            Route::put('/{id}', [PenggunaController::class, 'update']);
+            Route::delete('/{id}', [PenggunaController::class, 'destroy']);
+        });
+    });
 });
-
-
-Route::Group(['prefix' => 'admin/member'], function(){
-    Route::get('/', [MembersController::class, 'index']); //menampilkan halaman awal user
-    Route::post('/list', [MembersController::class, 'list']);  //menampilkan data user dalam bentuk json untuk datables
-    Route::get('/create', [MembersController::class, 'create']); //menampilkan hallaman form tambah user
-    Route::post('/', [MembersController::class, 'store']); //menyimpan data user baru
-    Route::get('/{id}', [MembersController::class, 'show']); //menampilkan detail user
-    Route::get('/{id}/edit', [MembersController::class, 'edit']); //menampilkan halaman form edit
-    Route::put('/{id}', [MembersController::class, 'update']); //menyimpan perubahan data user
-    Route::delete('/{id}', [MembersController::class, 'destroy']); //menghapus data user
-});
-
-Route::get('admin/detailTransaksi', [DetailTransaksiController::class, 'index'])->name('admin.detailTransaksi.index');
-Route::post('admin/detailTransaksi', [DetailTransaksiController::class, 'getData'])->name('admin.detailTransaksi.data');
-Route::get('admin/detailTransaksi/pdf', [DetailTransaksiController::class, 'exportPDF'])->name('admin.detailTransaksi.pdf');
-
-
-Route::Group(['prefix' => 'admin/barang'], function () {
-    Route::get('/', [BarangController::class, 'index']); //menampilkan halaman awal user
-    Route::post('/list', [BarangController::class, 'list']);  //menampilkan data user dalam bentuk json untuk datables
-    Route::get('/create', [BarangController::class, 'create']); //menampilkan hallaman form tambah user
-    Route::post('/', [BarangController::class, 'store']); //menyimpan data user baru
-    Route::get('/{id}', [BarangController::class, 'show']); //menampilkan detail user
-    Route::get('/{id}/edit', [BarangController::class, 'edit']); //menampilkan halaman form edit
-    Route::put('/{id}', [BarangController::class, 'update']); //menyimpan perubahan data user
-    Route::delete('/{id}', [BarangController::class, 'destroy']); //menghapus data user
-});
-
-Route::Group(['prefix' => 'admin/pengguna'], function () {
-    Route::get('/', [PenggunaController::class, 'index']); //menampilkan halaman awal user
-    Route::post('/list', [PenggunaController::class, 'list']);  //menampilkan data user dalam bentuk json untuk datables
-    Route::get('/create', [PenggunaController::class, 'create']); //menampilkan hallaman form tambah user
-    Route::post('/', [PenggunaController::class, 'store']); //menyimpan data user baru
-    Route::get('/{id}', [PenggunaController::class, 'show']); //menampilkan detail user
-    Route::get('/{id}/edit', [PenggunaController::class, 'edit']); //menampilkan halaman form edit
-    Route::put('/{id}', [PenggunaController::class, 'update']); //menyimpan perubahan data user
-    Route::delete('/{id}', [PenggunaController::class, 'destroy']); //menghapus data user
-});
-

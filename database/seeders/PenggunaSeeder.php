@@ -16,7 +16,7 @@ class PenggunaSeeder extends Seeder
         DB::table('pengguna')->insert([ 
             [
                 'username' => 'admin',
-                'name' => 'Ilham',  // Nama untuk admin
+                'nama' => 'Ilham',  // Nama untuk admin
                 'password' => bcrypt('admin123'),
                 'role' => 'admin',
                 'created_at' => now(),
@@ -24,7 +24,7 @@ class PenggunaSeeder extends Seeder
             ],
             [
                 'username' => 'kasir1',
-                'name' => 'Gegana',  // Nama untuk kasir
+                'nama' => 'Gegana',  // Nama untuk kasir
                 'password' => bcrypt('kasir123'),
                 'role' => 'kasir',
                 'created_at' => now(),

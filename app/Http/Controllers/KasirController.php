@@ -8,8 +8,6 @@ use App\Models\ModelKategori;
 use App\Models\ModelMember;
 use App\Models\ModelTransaksi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-
 
 class KasirController extends Controller
 {
@@ -226,6 +224,7 @@ class KasirController extends Controller
             'metode_pembayaran' => $metode_pembayaran
         ]);
 
+
         if (!$transaksi) {
             return redirect()->back()->with('error', 'Gagal menyimpan transaksi.');
         }
@@ -250,7 +249,7 @@ class KasirController extends Controller
         }
         // Hapus session setelah transaksi selesai
         session()->forget(['keranjang', 'nomor_member', 'discount', 'member_status', 'member_status_class', 'metode_pembayaran']);
-        // Redirect ke halaman sukses atau cetak nota
+        // Redirect setelah transaksi berhasil
         return redirect()->route('kasir.index')->with('success', 'Transaksi berhasil disimpan.');
     }
 }

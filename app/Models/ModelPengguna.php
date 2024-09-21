@@ -14,7 +14,7 @@ class ModelPengguna extends Authenticatable
     protected $table = 'pengguna';
     protected $primaryKey = 'pengguna_id';
 
-    protected $fillable = ['username', 'name','password', 'role'];
+    protected $fillable = ['username', 'nama', 'password', 'role'];
 
     protected $hidden = ['password'];
 
@@ -25,5 +25,15 @@ class ModelPengguna extends Authenticatable
     public function transaksi()
     {
         return $this->hasMany(ModelTransaksi::class, 'pengguna_id');
+    }
+
+    public function isKasir()
+    {
+        return $this->role === 'kasir';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

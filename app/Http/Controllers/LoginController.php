@@ -26,28 +26,22 @@ class LoginController extends Controller
 
         // Coba autentikasi pengguna
         if (Auth::attempt(['username' => $request->username, 'password' => $request->password])) {
-            // Ambil pengguna yang sedang login
             $user = Auth::user();
 
-            // Periksa peran pengguna
+            // Cek role pengguna setelah login
             if ($user->role == 'kasir') {
-                // Jika peran kasir, arahkan ke halaman barang/index
                 return redirect()->route('kasir.index')->with('success', 'Login berhasil sebagai kasir.');
             } elseif ($user->role == 'admin') {
-                // Jika peran admin, arahkan ke halaman lain
-                // return redirect()->route('admin.dashboard')->with('success', 'Login berhasil sebagai admin.');
+                return redirect()->route('admin.kategori.index')->with('success', 'Login berhasil sebagai admin.');
             }
 
-            // Default redirect jika tidak ada peran yang cocok
+            // Jika tidak ada peran yang sesuai
             return redirect('/')->with('error', 'Peran pengguna tidak dikenali.');
         }
 
         // Jika login gagal
-        return back()->withErrors([
-            'username' => 'Login gagal, periksa kembali kredensial.',
-        ])->withInput();
+        return back()->withErrors(['username' => 'Login gagal, periksa kembali kredensial.'])->withInput();
     }
-
     // Proses logout
     public function logout(Request $request)
     {

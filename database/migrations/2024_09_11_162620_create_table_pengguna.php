@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pengguna', function (Blueprint $table) {
             $table->id('pengguna_id');  // Primary key
             $table->string('username', 50);  // Username
+            $table->string('name', 100);  // Name (new column added after username)
             $table->string('password');  // Password (hashed)
             $table->enum('role', ['admin', 'kasir']);  // Role: Admin or Kasir
             $table->timestamps();  // Automatically adds created_at and updated_at

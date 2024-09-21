@@ -62,7 +62,14 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <p class="member-status">KARTU MEMBER VALID</p>
+                    <div class="form-group">
+                        <label for="nomor-member"><strong>Masukkan Nomor Kartu Member (Jika ada)</strong></label>
+                        <input type="text" name="nomor_member" id="nomor_member" class="form-control mb-2" placeholder="123456AB" value="{{ session('nomor_member') }}">
+                        <button type="button" class="btn btn-primary" id="cek-member">Cek Member</button>
+                        <hr>
+                        <!-- Status Kartu Member -->
+                        <p class="member-status {{ session('member_status_class', 'text-muted') }}" id="member-status">{{ session('member_status', 'STATUS') }}</p>
+                    </div>
 
                     <hr>
 
@@ -96,17 +103,13 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <p><strong>Diskon Member:</strong></p>
-                        <p>Rp 0</p> <!-- Ubah jika ada diskon -->
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p><strong>Pajak:</strong></p>
-                        <p>Rp 0</p>
-                    </div>
-
-                    <hr>
+                        <p id="diskon-member">
+                            Rp {{ session('discount') ? number_format(session('discount'), 0, ',', '.') : '0' }}
+                        </p>
+                    </div>                    
                     <div class="d-flex justify-content-between">
                         <h5><strong>Total:</strong></h5>
-                        <h5>Rp {{ number_format($subtotal, 0, ',', '.') }}</h5>
+                        <h5 id="total-harga">Rp {{ number_format($subtotal - session('discount', 0), 0, ',', '.') }}</h5>
                     </div>
 
 
@@ -278,4 +281,39 @@
             background-color: #c82333;
         }
     </style>
+@endpush
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#cek-member').click(function() {
+                // Ambil nomor member dan subtotal dari halaman
+                var nomor_member = $('#nomor_member').val();
+                var subtotal = {{ $subtotal }};
+
+                // Kirim request AJAX ke server
+                $.ajax({
+                    url: "{{ route('check.member') }}",
+                    method: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        nomor_member: nomor_member,
+                        subtotal: subtotal
+                    },
+                    success: function(response) {
+                        // Update status kartu member
+                        $('#member-status').text(response.member_status);
+                        $('#member-status').removeClass('text-muted text-danger text-success')
+                            .addClass(response.member_status_class);
+
+                        // Update diskon dan total harga
+                        $('#diskon-member').text('Rp ' + response.diskon);
+                        $('#total-harga').text('Rp ' + response.total);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

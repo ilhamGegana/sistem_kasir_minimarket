@@ -45,6 +45,8 @@ Route::get('/admin_kat', function () {
     return view('admin.kategori');
 })->name('admin.kategori');
 
+Route::post('/check-member', [KasirController::class, 'checkMember'])->name('check.member');
+
 // Routing untuk dashboard pengguna setelah login (kasir)
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [KasirController::class, 'index'])->name('dashboard');

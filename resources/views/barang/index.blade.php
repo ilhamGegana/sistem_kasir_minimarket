@@ -55,9 +55,11 @@
         <div class="col-md-4">
             <div class="card" id="keranjang-belanja">
                 <div class="card-body">
-                    <p><strong>Masukkan Nomor Kartu Member (Jika ada)</strong></p>
-                    <input type="text" class="form-control mb-2" placeholder="123456AB">
+                    @if (session('nomor_member'))
+                        <p><strong>Nomor Member : {{ session('nomor_member') }}</strong></p>
+                    @endif
 
+                    <hr>
                     <!-- List Barang -->
                     @if (session('keranjang'))
                         <div id="daftar-keranjang">
@@ -80,10 +82,6 @@
                         <div class="d-flex justify-content-between">
                             <p><strong>Subtotal:</strong></p>
                             <p id="subtotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p><strong>Pajak:</strong></p>
-                            <p id="pajak">Rp 0</p>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h5><strong>Total:</strong></h5>

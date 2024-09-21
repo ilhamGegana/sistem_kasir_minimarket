@@ -13,7 +13,7 @@ class ModelPengguna extends Authenticatable
 
     protected $table = 'pengguna';
     protected $primaryKey = 'pengguna_id';
-    protected $fillable = ['username', 'password', 'role'];
+    protected $fillable = ['username', 'name','password', 'role'];
 
     protected $hidden = ['password'];
 

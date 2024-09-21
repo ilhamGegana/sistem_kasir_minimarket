@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>@yield('title', 'HappyMart')</title>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -68,6 +70,7 @@
 <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+
 <script>
     // untuk mengirimkan token laravel CSRF pada setiap request ajax
     $.ajaxSetup({
@@ -76,6 +79,10 @@
         }
     })
 </script>
+
+
+
 @stack('scripts')
+
 </body>
 </html>

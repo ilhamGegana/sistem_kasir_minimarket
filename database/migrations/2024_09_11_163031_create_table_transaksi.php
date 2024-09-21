@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('member_id')->nullable()->constrained('members', 'member_id')->onDelete('set null')->onUpdate('cascade');  // Foreign key to members (nullable)
             $table->dateTime('tanggal')->default(DB::raw('CURRENT_TIMESTAMP'));  // Transaction date
             $table->decimal('total_harga', 10, 2);  // Total transaction amount
-            $table->enum('metode_pembayaran', ['cash', 'card']);  // Payment method: cash or card
+            $table->enum('metode_pembayaran', ['cash', 'card','e_wallet']);  // Payment method: cash or card
             $table->timestamps();  // Automatically adds created_at and updated_at
         });
     }

@@ -1,0 +1,165 @@
+/* bayar.css */
+
+/* Menambahkan margin atau gap antara sidebar dan elemen utama */
+.content-wrapper {
+    margin-left: 250px;
+    padding: 15px;
+}
+
+/* Styling untuk layout pembayaran */
+.table {
+    margin-top: 20px;
+}
+
+.btn-block {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.member-status {
+    text-align: center;
+    /* Untuk membuat teks berada di tengah */
+    color: rgb(10, 203, 10);
+    /* Mengubah warna teks menjadi hijau */
+    font-weight: bold;
+    /* Membuat teks tebal */
+}
+
+#waktu {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.card {
+    margin-top: 20px;
+}
+
+.d-flex {
+    margin-top: 20px;
+}
+
+/* Styling untuk tombol tambah barang */
+.tambah-barang {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tambah-barang i {
+    color: #007bff;
+}
+
+.tambah-barang p {
+    margin-top: 10px;
+    color: #007bff;
+}
+
+/* Sesuaikan warna dan padding */
+.btn-warning {
+    background-color: #ffcc00;
+    color: black;
+    width: 48%;
+}
+
+.btn-danger {
+    width: 48%;
+}
+
+.payment-methods {
+    margin-top: 20px;
+}
+
+.payment-option {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+}
+
+.payment-option img {
+    width: 50px;
+    height: 50px;
+}
+
+.payment-option p {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #666;
+}
+
+.payment-option.active {
+    background-color: #e9f5fc;
+    border-color: #007bff;
+    color: #007bff;
+}
+
+.payment-option:hover {
+    background-color: #e9f5fc;
+    border-color: #007bff;
+    cursor: pointer;
+}
+
+/* Styling untuk tombol "Tambah Barang" */
+.btn-outline-primary {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 18px;
+    background-color: white;
+    color: #007bff;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-outline-primary i {
+    font-size: 26px;
+}
+
+.tombol-custom {
+    width: 100%;
+    /* Membuat tombol selebar form */
+    padding: 12px 0;
+    /* Padding yang cukup untuk membuat tombol lebih besar */
+    font-size: 16px;
+    /* Ukuran teks yang mudah dibaca */
+    font-weight: bold;
+    /* Teks tebal */
+    border-radius: 5px;
+    /* Sudut tombol melengkung */
+    text-align: center;
+    /* Teks di tengah */
+    cursor: pointer;
+    /* Mengubah kursor menjadi pointer */
+}
+
+/* Warna tombol Batalkan */
+.tombol-custom.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+/* Hover effect */
+.tombol-custom.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.payment-option.active {
+    background-color: #e9f5fc;
+    border-color: #007bff;
+    color: #007bff;
+}

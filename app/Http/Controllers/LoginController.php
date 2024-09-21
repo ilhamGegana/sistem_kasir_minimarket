@@ -32,7 +32,7 @@ class LoginController extends Controller
             // Periksa peran pengguna
             if ($user->role == 'kasir') {
                 // Jika peran kasir, arahkan ke halaman barang/index
-                return redirect()->route('barang.index')->with('success', 'Login berhasil sebagai kasir.');
+                return redirect()->route('kasir.index')->with('success', 'Login berhasil sebagai kasir.');
             } elseif ($user->role == 'admin') {
                 // Jika peran admin, arahkan ke halaman lain
                 // return redirect()->route('admin.dashboard')->with('success', 'Login berhasil sebagai admin.');

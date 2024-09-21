@@ -5,8 +5,25 @@
 @section('content')
     <div class="row">
         <div class="col-md-8">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @elseif (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
+
             <h2>Pilih Barang Yang Dibeli</h2>
-            <form method="GET" action="{{ route('barang.index') }}">
+            <form method="GET" action="{{ route('kasir.index') }}">
                 <div class="mb-3">
                     <label for="filter-kategori" class="form-label">Filter Kategori:</label>
                     <select id="filter-kategori" class="form-control" name="kategori_id" onchange="this.form.submit()">
@@ -40,7 +57,7 @@
                             <td>{{ $b->stok }}</td>
                             <td>Rp {{ number_format($b->harga, 0, ',', '.') }}</td>
                             <td>
-                                <form action="{{ route('barang.tambahKeKeranjang') }}" method="POST">
+                                <form action="{{ route('kasir.tambahKeKeranjang') }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="barang_id" value="{{ $b->barang_id }}">
                                     <button type="submit" class="btn btn-primary">Tambah</button>
@@ -99,7 +116,7 @@
                             @csrf
                             <button type="submit" class="btn tombol-custom tombol-batalkan">Batalkan</button>
                         </form>
-                        <form action="{{ route('barang.checkout') }}" method="GET" style="width: 100%;">
+                        <form action="{{ route('kasir.checkout') }}" method="GET" style="width: 100%;">
                             <button type="submit" class="btn tombol-custom tombol-konfirmasi">Konfirmasi</button>
                         </form>
                     </div>
@@ -193,7 +210,7 @@
         // Fungsi updateKeranjang
         function updateKeranjang(id, action) {
             $.ajax({
-                url: '/update-keranjang/' + id,
+                url: '/kasir/update-keranjang/' + id,
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',

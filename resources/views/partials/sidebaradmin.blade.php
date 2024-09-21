@@ -11,11 +11,16 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="{{ url('/admin/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }} ">                        <i class="nav-icon fas fa-box"></i>
+                    <a href="{{ url('/admin/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-box"></i>
                         <p>Kategori Barang</p>
                     </a>
                 </li>
                 <li class="nav-item">
+
+                    <a href="{{ url('/admin/member') }}" class="nav-link {{ ($activeMenu == 'member') ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-user"></i>
+
                     <a href="{{ url('/admin/barang') }}" class="nav-link {{ ($activeMenu == 'data_barang') ? 'active' : '' }} ">                        <i class="nav-icon fas fa-box"></i>
                         <p>Data Barang</p>
                     </a>
@@ -23,6 +28,7 @@
                 <li class="nav-item">
                     <a href="{{ route('barang.bayar') }}" class="nav-link {{ Route::currentRouteName() == 'barang.bayar' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cash-register"></i>
+
                         <p>Member</p>
                     </a>
                 </li>
@@ -31,6 +37,12 @@
                     <p>Data Pengguna</p>
                 </a>
             </li>
+                <li class="nav-item">
+                    <a href="{{ url('/admin/detailTransaksi') }}" class="nav-link {{ ($activeMenu == 'detailTransaksi') ? 'active' : '' }} ">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>Laporan</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cogs"></i>

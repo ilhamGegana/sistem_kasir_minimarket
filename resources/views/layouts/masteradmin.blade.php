@@ -1,4 +1,4 @@
-<!-- resources/views/layouts/master.blade.php -->
+<!-- resources/views/layouts/masteradmin.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'HappyMart')</title>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -67,6 +70,17 @@
 <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+
+<script>
+    // untuk mengirimkan token laravel CSRF pada setiap request ajax
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+</script>
+
+
 
 @stack('scripts')
 

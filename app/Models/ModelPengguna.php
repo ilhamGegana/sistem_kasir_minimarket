@@ -13,10 +13,13 @@ class ModelPengguna extends Authenticatable
 
     protected $table = 'pengguna';
     protected $primaryKey = 'pengguna_id';
-    protected $fillable = ['username', 'nama','password', 'role'];
+
+    protected $fillable = ['username', 'name','password', 'role'];
 
     protected $hidden = ['password'];
+
     public $timestamps = false;
+
 
     // Relasi ke tabel 'transaksi'
     public function transaksi()

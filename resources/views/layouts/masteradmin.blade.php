@@ -1,4 +1,4 @@
-<!-- resources/views/layouts/master.blade.php -->
+<!-- resources/views/layouts/masteradmin.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

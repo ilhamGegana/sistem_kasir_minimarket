@@ -3,6 +3,7 @@
 use App\Http\Controllers\frontend\KasirController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MembersController;
+use App\Http\Controllers\DetailTransaksiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,3 +49,8 @@ Route::Group(['prefix' => 'admin/member'], function(){
     Route::put('/{id}', [MembersController::class, 'update']); //menyimpan perubahan data user
     Route::delete('/{id}', [MembersController::class, 'destroy']); //menghapus data user
 });
+
+Route::get('admin/detailTransaksi', [DetailTransaksiController::class, 'index'])->name('admin.detailTransaksi.index');
+Route::post('admin/detailTransaksi', [DetailTransaksiController::class, 'getData'])->name('admin.detailTransaksi.data');
+Route::get('admin/detailTransaksi/pdf', [DetailTransaksiController::class, 'exportPDF'])->name('admin.detailTransaksi.pdf');
+
